@@ -18,6 +18,6 @@ jobs:
         working-directory: infra
         run: docker compose pull fledge-dev || docker compose build fledge-dev
 
-      - name: Run example_counter testbench
+      - name: Run regression
         working-directory: infra
-        run: docker compose run --rm --pull never fledge-dev bash -c "cd hw/ip/example_counter/dv && make"
+        run: docker compose run --rm --pull never fledge-dev bash -c "make lint && make test"
