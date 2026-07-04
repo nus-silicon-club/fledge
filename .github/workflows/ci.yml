@@ -9,13 +9,15 @@ on:
 jobs:
   regression-tests:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Build Club RTL Environment
-        run: ./infra/setup.sh
+      - name: Pull Toolchain Image (or build fallback)
+        working-directory: infra
+        run: docker compose pull fledge-dev || docker compose build fledge-dev
 
       - name: Run example_counter testbench
-        run: cd infra && docker compose run --rm club-dev bash -c "cd hw/ip/example_counter/dv && make"
+        working-directory: infra
+        run: docker compose run --rm --pull never fledge-dev bash -c "cd hw/ip/example_counter/dv && make"

@@ -4,6 +4,9 @@
 # the two separate makes this image fast to build and keeps the PD flow
 # on whatever version OpenLane itself ships.
 FROM ubuntu:24.04
+LABEL org.opencontainers.image.source="https://github.com/nus-silicon-club/fledge" \
+      org.opencontainers.image.description="Fledge RTL and verification toolchain" \
+      org.opencontainers.image.licenses="Apache-2.0"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

@@ -2,8 +2,9 @@
 
 1. Install Docker.
 2. `git clone` this repo.
-3. Run `./infra/setup.sh` -- this builds the shared toolchain image.
-4. Enter the environment: `cd infra && docker compose run --rm club-dev`
+3. Run `./infra/setup.sh` -- this pulls the shared toolchain image, or
+   builds it locally if the published image is not available yet.
+4. Enter the environment: `cd infra && docker compose run --rm --pull never fledge-dev`
 5. Verify your environment works:
    ```
    cd hw/ip/example_counter/dv && make

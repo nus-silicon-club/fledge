@@ -1,6 +1,7 @@
-# NUSilicon -- Front-End Chip Design
+# Fledge -- Front-End Chip Design
 
-Front-end silicon design, engineering-focused: RTL design, verification,
+Fledge is the club's working codename for front-end silicon design:
+RTL design, verification,
 integration, and physical design, built on open-source hardware tooling
 (PULP, OpenLane/Sky130) toward a Tiny Tapeout submission.
 

@@ -1,5 +1,6 @@
 services:
-  club-dev:
+  fledge-dev:
+    image: ghcr.io/nus-silicon-club/fledge-toolchain:latest
     build:
       context: .
       dockerfile: Dockerfile
