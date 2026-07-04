@@ -1,0 +1,20 @@
+# Python caches
+__pycache__/
+*.py[cod]
+
+# cocotb / Verilator build artifacts
+sim_build/
+obj_dir/
+results.xml
+*.o
+*.a
+*.so
+
+# Bender's local checkout cache -- regenerate with `bender checkout`
+# NOTE: vendor/ itself is NOT ignored -- vendored IP (Croc-style) is
+# meant to be committed. Only the raw dependency-resolution cache is.
+.bender/
+
+# Editor/OS files
+.vscode/
+.DS_Store
