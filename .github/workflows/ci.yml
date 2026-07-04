@@ -1,0 +1,21 @@
+name: RTL Verification CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  regression-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Club RTL Environment
+        run: ./infra/setup.sh
+
+      - name: Run example_counter testbench
+        run: cd infra && docker compose run --rm club-dev bash -c "cd hw/ip/example_counter/dv && make"
