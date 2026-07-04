@@ -1,4 +1,4 @@
-# [Club Name] -- Front-End Chip Design
+# NUSilicon -- Front-End Chip Design
 
 Front-end silicon design, engineering-focused: RTL design, verification,
 integration, and physical design, built on open-source hardware tooling
