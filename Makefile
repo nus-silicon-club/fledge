@@ -9,7 +9,7 @@ check: check-ip-structure lint test
 check-ip-structure:
 	scripts/ip/check_ip_structure.py
 
-test: test-example test-gpio
+test: test-example test-gpio test-timer
 
 test-example:
 	cd hw/ip/example_counter/dv && make
@@ -17,7 +17,10 @@ test-example:
 test-gpio:
 	cd hw/ip/gpio/dv && make
 
-lint: lint-example lint-gpio
+test-timer:
+	cd hw/ip/timer/dv && make
+
+lint: lint-example lint-gpio lint-timer
 
 lint-example:
 	verilator --lint-only hw/ip/example_counter/rtl/counter.sv
@@ -25,8 +28,13 @@ lint-example:
 lint-gpio:
 	verilator --lint-only hw/ip/gpio/rtl/gpio.sv
 
+lint-timer:
+	verilator --lint-only hw/ip/timer/rtl/timer.sv
+
 clean:
 	rm -rf hw/ip/example_counter/dv/sim_build
 	rm -f hw/ip/example_counter/dv/results.xml
 	rm -rf hw/ip/gpio/dv/sim_build
 	rm -f hw/ip/gpio/dv/results.xml
+	rm -rf hw/ip/timer/dv/sim_build
+	rm -f hw/ip/timer/dv/results.xml
