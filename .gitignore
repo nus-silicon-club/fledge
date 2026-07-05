@@ -18,3 +18,4 @@ results.xml
 # Editor/OS files
 .vscode/
 .DS_Store
+*:Zone.Identifier
