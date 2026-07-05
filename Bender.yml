@@ -12,3 +12,4 @@ sources:
   - hw/ip/example_counter/rtl/counter.sv
   - hw/ip/gpio/rtl/gpio.sv
   - hw/ip/timer/rtl/timer.sv
+  - hw/ip/uart/rtl/uart.sv
