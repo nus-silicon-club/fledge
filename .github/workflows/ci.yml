@@ -20,4 +20,4 @@ jobs:
 
       - name: Run regression
         working-directory: infra
-        run: docker compose run --rm --pull never fledge-dev bash -c "make lint && make test"
+        run: docker compose run --rm --pull never fledge-dev bash -c "make check"

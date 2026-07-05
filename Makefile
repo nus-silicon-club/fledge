@@ -4,6 +4,11 @@ deps:
 	bender update
 	bender checkout
 
+check: check-ip-structure lint test
+
+check-ip-structure:
+	scripts/ip/check_ip_structure.py
+
 test: test-example test-gpio
 
 test-example:
