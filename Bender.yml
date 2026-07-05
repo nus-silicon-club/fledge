@@ -6,7 +6,7 @@ package:
 dependencies:
   common_cells:
     git: "https://github.com/pulp-platform/common_cells.git"
-    version: "1.39.0"
+    version: "1.40.0"
 
 sources:
   - hw/ip/example_counter/rtl/counter.sv
