@@ -1,7 +1,7 @@
 package:
   name: fledge
   authors:
-    - "Haushuan"
+    - "haushuan"
 
 dependencies:
   common_cells:
@@ -10,3 +10,4 @@ dependencies:
 
 sources:
   - hw/ip/example_counter/rtl/counter.sv
+  - hw/ip/gpio/rtl/gpio.sv
