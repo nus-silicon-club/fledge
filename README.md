@@ -1,65 +1,100 @@
-# Fledge -- Front-End Chip Design
+# Fledge
 
-Fledge is the club's working codename for front-end silicon design:
-RTL design, verification,
-integration, and physical design, built on open-source hardware tooling
-(PULP, OpenLane/Sky130) toward a Tiny Tapeout submission.
+Fledge is a tiny educational RISC-V microcontroller-class SoC project. Its purpose is to become a practical collaboration platform for learning frontend chip design: RTL, verification, SoC integration, firmware bring-up, FPGA prototyping, and open-source physical design.
 
-## Repo structure
+The project starts small on purpose. Fledge v0 aims to build a minimal MCU that can run bare-metal code, configure GPIO, use a timer, and send bytes over UART. The repo is structured so those early blocks can grow into a larger reusable SoC platform instead of becoming one-off coursework exercises.
 
-```
+## Current Status
+
+Implemented:
+
+- `example_counter`: reference IP used to teach the repo pattern.
+- `gpio`: first bus/register-facing peripheral IP.
+- Docker-based toolchain with Verilator, cocotb, and Bender.
+- GitHub Actions regression through the root `Makefile`.
+- Bender dependency metadata and lockfile.
+
+Planned next:
+
+- `timer`: counter/compare timer peripheral.
+- `uart`: serial TX/RX peripheral.
+- `hw/soc`: tiny SoC wrapper and memory map.
+- OpenLane/OpenROAD smoke flow for small blocks.
+
+## Repo Structure
+
+```text
 .
-├── hw/
-│   ├── ip/                        # club-original IP blocks
-│   │   └── example_counter/       # reference IP -- copy this pattern
-│   │       ├── rtl/               #   design sources
-│   │       ├── dv/                #   testbench (cocotb)
-│   │       └── doc/               #   spec + status + verification notes
-│   └── soc/                       # integration layer
-│       ├── rtl/                   #   vendored external IPs land here as
-│       │                          #   rtl/<ip_name>, PULP/Croc-style, plus
-│       │                          #   top-level integration wrappers
-│       └── dv/                    #   platform-level testbench
-│
-├── vendor/                        # raw upstream checkouts (Bender/FuseSoC managed)
-│
-├── curriculum/                    # one module per flow stage, staged capstones
-│   ├── 01-architecture/
-│   ├── 02-rtl/
-│   ├── 03-verification/
-│   ├── 04-integration/
-│   ├── 05-physical-design/
-│   └── 06-dft-signoff/
-│
-├── infra/                         # environment: Dockerfile, compose, setup.sh
-├── docs/                          # onboarding, tool guides, governance
-├── .github/workflows/ci.yml       # regression on every PR
-└── LICENSE                        # Apache-2.0 / Solderpad (matches PULP ecosystem)
+|-- hw/
+|   |-- ip/                         # reusable IP blocks
+|   |   |-- example_counter/         # reference IP
+|   |   `-- gpio/                    # memory-mapped GPIO peripheral
+|   |       |-- rtl/                 # design sources
+|   |       |-- dv/                  # cocotb testbench
+|   |       `-- doc/                 # spec, status, verification notes
+|   `-- soc/                        # future SoC integration layer
+|       |-- rtl/
+|       `-- dv/
+|
+|-- vendor/                         # committed external snapshots only, if needed
+|-- curriculum/                     # staged learning tracks and capstones
+|-- infra/                          # Dockerfile, compose, setup script
+|-- docs/                           # architecture, onboarding, checklists
+|-- .github/workflows/ci.yml        # regression on push and PR
+|-- Bender.yml                      # HDL package/dependency metadata
+|-- Bender.lock                     # pinned dependency resolution
+|-- Makefile                        # project command surface
+`-- LICENSE
 ```
 
-### Why the IP layer and SoC layer look different
-`hw/ip/<name>/{rtl,dv,doc}` -- the IP name is the parent, disciplines are
-children. This matches OpenTitan's convention for a single IP's own repo:
-design/verification/docs are different disciplines within one block.
+## Architecture
 
-`hw/soc/rtl/<ip_name>` -- at the integration layer, `rtl` is the parent
-and each vendored IP is a child. This is what PULP's own repos do when
-composing a full chip (see `croc`, PULP's education-focused SoC that
-taped out on IHP's open PDK) -- verification and docs at this layer
-apply to the whole platform, not to any single vendored IP.
+Read `docs/architecture.md` for the product definition and roadmap. In short:
+
+- Fledge v0 is a tiny educational MCU.
+- IP blocks should remain reusable and mostly bus-neutral internally.
+- Bus-specific protocols such as OBI, APB, or AXI-Lite can be added through wrappers or generated register-interface logic later.
+- PULP/Croc are architecture references, not folder trees to copy blindly.
+- Open-source IP should be reused deliberately through Bender.
+
+## Development Workflow
+
+Use the host Ubuntu environment for editing and Git operations. Use the Docker container for hardware tools.
+
+Typical flow:
+
+```bash
+cd infra
+docker compose run --rm --pull never fledge-dev
+```
+
+Inside the container:
+
+```bash
+cd /workspace
+make lint
+make test
+```
+
+The root `Makefile` is the public command surface. CI runs the same checks that contributors run locally.
+
+## Useful Docs
+
+- `docs/onboarding.md`: first-time setup and local workflow.
+- `docs/architecture.md`: what kind of chip Fledge is building.
+- `docs/ip_checklist.md`: definition of done for reusable IP blocks.
 
 ## Toolchain
-See `infra/Dockerfile`. Validated combination: Verilator 5.020 (Ubuntu
-24.04 apt) + cocotb 1.9.x. Physical design (OpenLane/OpenROAD + Sky130)
-runs via the official OpenLane container, not this image -- see
-`docs/onboarding.md`.
 
-## Getting started
-See `docs/onboarding.md`.
+The current development image focuses on frontend RTL work:
 
-## Open-source dependencies this club builds on
-PULP / Ibex / CVA6 (starter cores and peripherals), FuseSoC / Bender
-(dependency management), Verilator / cocotb (simulation + verification),
-OpenLane / OpenROAD (synthesis, place & route, STA), Sky130 (PDK),
-Tiny Tapeout (fabrication target), OpenTitan (verification methodology
-reference), CHIPS Alliance (umbrella tooling/standards).
+- Verilator for lint and simulation backend.
+- cocotb for Python testbenches.
+- Bender for HDL dependency management.
+- PULP `common_cells` as the first open-source RTL dependency.
+
+Physical design is intentionally separate for now. OpenLane/OpenROAD support will be added as a later smoke-flow milestone once the RTL platform is more settled.
+
+## Open-Source Dependencies This Project Builds On
+
+PULP / Ibex / Croc, Bender, Verilator, cocotb, OpenLane / OpenROAD, Sky130, Tiny Tapeout, OpenTitan, and CHIPS Alliance projects are reference points or future integration targets. Fledge should reuse mature infrastructure where it helps, while keeping the early educational SoC understandable.
