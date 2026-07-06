@@ -1,0 +1,13 @@
+regions:
+  - name: gpio
+    base: 0x40000000
+    size: 0x1000
+    instance: u_gpio
+  - name: timer
+    base: 0x40001000
+    size: 0x1000
+    instance: u_timer
+  - name: uart
+    base: 0x40002000
+    size: 0x1000
+    instance: u_uart
