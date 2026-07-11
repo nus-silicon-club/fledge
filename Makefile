@@ -15,7 +15,7 @@ check:
 		fledge-dev make check
 endif
 
-check-local: check-ip-structure check-memory-map lint test 
+check-local: check-ip-structure check-memory-map lint test
 
 check-ip-structure:
 	scripts/ip/check_ip_structure.py

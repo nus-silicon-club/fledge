@@ -1,6 +1,6 @@
 services:
   fledge-dev:
-    image: ghcr.io/nus-silicon-club/fledge-toolchain:latest
+    image: ghcr.io/nus-silicon-designers/fledge-toolchain:latest
     build:
       context: .
       dockerfile: Dockerfile

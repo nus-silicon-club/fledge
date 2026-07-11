@@ -14,9 +14,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Pull Toolchain Image (or build fallback)
+      - name: Build toolchain image
         working-directory: infra
-        run: docker compose pull fledge-dev || docker compose build fledge-dev
+        run: docker compose build fledge-dev
 
       - name: Run regression
         run: make check
