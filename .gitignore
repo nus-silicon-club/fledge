@@ -10,10 +10,16 @@ results.xml
 *.a
 *.so
 
+# FuseSoC build artifacts
+build/
+
 # Bender's local checkout cache -- regenerate with `bender checkout`
 # NOTE: vendor/ itself is NOT ignored -- vendored IP (Croc-style) is
 # meant to be committed. Only the raw dependency-resolution cache is.
 .bender/
+
+# Ibex is fetched reproducibly from the revision pinned in Bender.yml.
+vendor/ibex/
 
 # Editor/OS files
 .vscode/

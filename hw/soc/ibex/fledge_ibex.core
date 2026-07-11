@@ -1,0 +1,36 @@
+CAPI=2:
+
+name: "fledge:integration:ibex:0.1.0"
+description: "Fledge integration metadata for the pinned Ibex CPU"
+
+filesets:
+  ibex:
+    depend:
+      - lowrisc:ibex:ibex_top
+      - lowrisc:prim_generic:all
+    files:
+      # Copied from the pinned Ibex revision recorded in Bender.yml.
+      - lint/verilator_waiver.vlt: {file_type: vlt}
+
+parameters:
+  SYNTHESIS:
+    datatype: bool
+    paramtype: vlogdefine
+    default: true
+
+  DISABLE_PRIM_CDC_RAND_DELAY:
+    datatype: bool
+    paramtype: vlogdefine
+    default: true
+
+targets:
+  lint:
+    filesets:
+      - ibex
+    parameters:
+      - SYNTHESIS
+      - DISABLE_PRIM_CDC_RAND_DELAY
+    toplevel: ibex_top
+    flow: lint
+    flow_options:
+      tool: verilator

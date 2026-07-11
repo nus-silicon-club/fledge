@@ -61,22 +61,27 @@ Read `docs/architecture.md` for the product definition and roadmap. In short:
 
 Use the host Ubuntu environment for editing and Git operations. Use the Docker container for hardware tools.
 
-Typical flow:
+From the repository root, enter the development container:
 
 ```bash
-cd infra
-docker compose run --rm --pull never fledge-dev
+make shell
 ```
 
 Inside the container:
 
 ```bash
-cd /workspace
-make lint
-make test
+make check
 ```
 
-The root `Makefile` is the public command surface. CI runs the same checks that contributors run locally.
+The same command works directly from the host:
+
+```bash
+make check
+```
+
+On the host, `make check` dispatches to Docker. Inside the container, it fetches
+pinned dependencies and runs the checks directly. The root `Makefile` is the
+public command surface, and CI uses the same `make check` entry point.
 
 ## Useful Docs
 

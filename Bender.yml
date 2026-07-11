@@ -8,6 +8,32 @@ dependencies:
     git: "https://github.com/pulp-platform/common_cells.git"
     version: "1.40.0"
 
+vendor_package:
+  - name: ibex
+    target_dir: vendor/ibex
+    upstream:
+      git: "https://github.com/lowRISC/ibex.git"
+      rev: "c6edaa4060b1a3cd27fda928058db4f0ee3d24bd"
+    include_from_upstream:
+      - "check_tool_requirements.core"
+      - "ibex_core.core"
+      - "ibex_icache.core"
+      - "ibex_multdiv.core"
+      - "ibex_pkg.core"
+      - "ibex_top.core"
+      - "ibex_top_tracing.core"
+      - "ibex_tracer.core"
+      - "ibex_configs.yaml"
+      - "rtl"
+      - "lint"
+      - "util/check_tool_requirements.py"
+      - "util/tool_requirements.py"
+      - "vendor/lowrisc_ip"
+      - "LICENSE"
+      - "NOTICE"
+      - "CREDITS.md"
+      - "README.md"
+
 sources:
   - hw/ip/example_counter/rtl/counter.sv
   - hw/ip/gpio/rtl/gpio.sv

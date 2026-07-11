@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # cocotb 2.x -- just re-test the example IP in hw/ip/example_counter first.
 RUN pip3 install --break-system-packages --no-cache-dir \
         "cocotb<2.0" \
+	"fusesoc==2.4.3" \
         pytest
 
 # Rust + Bender, for PULP-style IP dependency management
