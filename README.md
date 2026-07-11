@@ -83,6 +83,8 @@ The root `Makefile` is the public command surface. CI runs the same checks that 
 - `docs/onboarding.md`: first-time setup and local workflow.
 - `docs/architecture.md`: what kind of chip Fledge is building.
 - `docs/ip_checklist.md`: definition of done for reusable IP blocks.
+- `docs/system_bus.md`: request/response bus for CPU and SoC integration.
+- `docs/cpu_integration.md`: Phase 6 Ibex integration plan.
 
 ## Toolchain
 
