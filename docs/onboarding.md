@@ -25,7 +25,7 @@ Use the `fledge-dev` container for:
 2. Clone the repo:
 
    ```bash
-   git clone https://github.com/nus-silicon-club/fledge.git
+   git clone https://github.com/nus-silicon-designers/fledge.git
    cd fledge
    ```
 

@@ -4,7 +4,7 @@
 # the two separate makes this image fast to build and keeps the PD flow
 # on whatever version OpenLane itself ships.
 FROM ubuntu:24.04
-LABEL org.opencontainers.image.source="https://github.com/nus-silicon-club/fledge" \
+LABEL org.opencontainers.image.source="https://github.com/nus-silicon-designers/fledge" \
       org.opencontainers.image.description="Fledge RTL and verification toolchain" \
       org.opencontainers.image.licenses="Apache-2.0"
 ENV DEBIAN_FRONTEND=noninteractive
@@ -24,8 +24,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # cocotb 2.x -- just re-test the example IP in hw/ip/example_counter first.
 RUN pip3 install --break-system-packages --no-cache-dir \
         "cocotb<2.0" \
-	"fusesoc==2.4.3" \
-	"PyYAML==6.0.3" \
+        "fusesoc==2.4.3" \
+        "PyYAML==6.0.3" \
         pytest
 
 # Rust + Bender, for PULP-style IP dependency management

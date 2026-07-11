@@ -1,5 +1,9 @@
 name: Publish Toolchain
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/fledge-toolchain
+
 on:
   push:
     branches: [ "main" ]
@@ -22,7 +26,7 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGITRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,4 +36,4 @@ jobs:
           context: ./infra
           file: ./infra/Dockerfile
           push: true
-          tags: ghcr.io/nus-silicon-club/fledge-toolchain:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest 
