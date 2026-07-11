@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip3 install --break-system-packages --no-cache-dir \
         "cocotb<2.0" \
 	"fusesoc==2.4.3" \
+	"PyYAML==6.0.3" \
         pytest
 
 # Rust + Bender, for PULP-style IP dependency management

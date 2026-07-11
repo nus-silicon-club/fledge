@@ -1,9 +1,6 @@
 # Memory Map
 
-Fledge uses a simple memory-mapped register space for the CPU-less Phase 5 SoC
-wrapper.
-
-The machine-readable source for this map is:
+The machine-readable source of truth for the Fledge address map is:
 
 ```text
 hw/soc/memory_map.yml

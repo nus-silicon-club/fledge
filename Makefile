@@ -1,4 +1,4 @@
-.PHONY: shell deps check check-local check-ip-structure test test-example test-gpio test-timer test-uart test-soc lint lint-example lint-gpio lint-timer lint-uart lint-soc lint-ibex clean
+.PHONY: shell deps check check-local check-ip-structure check-memory-map test test-example test-gpio test-timer test-uart test-soc test-memory-map lint lint-example lint-gpio lint-timer lint-uart lint-soc lint-ibex clean
 
 shell:
 	docker compose -f infra/docker-compose.yml run --rm --pull never fledge-dev
@@ -15,12 +15,15 @@ check:
 		fledge-dev make check
 endif
 
-check-local: check-ip-structure lint test
+check-local: check-ip-structure check-memory-map lint test 
 
 check-ip-structure:
 	scripts/ip/check_ip_structure.py
 
-test: test-example test-gpio test-timer test-uart test-soc
+check-memory-map:
+	scripts/soc/check_memory_map.py hw/soc/memory_map.yml
+
+test: test-example test-gpio test-timer test-uart test-soc test-memory-map
 
 test-example:
 	cd hw/ip/example_counter/dv && make
@@ -36,6 +39,9 @@ test-uart:
 
 test-soc:
 	cd hw/soc/dv && make
+
+test-memory-map:
+	pytest -q scripts/soc/test_check_memory_map.py
 
 lint: lint-example lint-gpio lint-timer lint-uart lint-soc lint-ibex
 
