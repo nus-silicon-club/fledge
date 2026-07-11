@@ -1,13 +1,56 @@
+schema_version: 1
+
+bus:
+  address_width: 32
+  data_width: 32
+
 regions:
+  - name: boot_memory
+    kind: memory
+    base: 0x00000000
+    size: 0x4000
+    instance: u_boot_memory
+    readable: true
+    writable: false
+    executable: true
+    implemented: false
+
+  - name: data_memory
+    kind: memory
+    base: 0x10000000
+    size: 0x4000
+    instance: u_data_memory
+    readable: true
+    writable: true
+    executable: false
+    implemented: false
+
   - name: gpio
+    kind: peripheral
     base: 0x40000000
     size: 0x1000
     instance: u_gpio
+    readable: true
+    writable: true
+    executable: false
+    implemented: true
+
   - name: timer
+    kind: peripheral
     base: 0x40001000
     size: 0x1000
     instance: u_timer
+    readable: true
+    writable: true
+    executable: false
+    implemented: true
+
   - name: uart
+    kind: peripheral
     base: 0x40002000
     size: 0x1000
     instance: u_uart
+    readable: true
+    writable: true
+    executable: false
+    implemented: true
