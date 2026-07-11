@@ -19,5 +19,4 @@ jobs:
         run: docker compose pull fledge-dev || docker compose build fledge-dev
 
       - name: Run regression
-        working-directory: infra
-        run: docker compose run --rm --pull never fledge-dev bash -c "make check"
+        run: make check

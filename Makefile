@@ -1,10 +1,21 @@
-.PHONY: deps check check-ip-structure test test-example test-gpio test-timer test-uart test-soc lint lint-example lint-gpio lint-timer lint-uart lint-soc  clean 
+.PHONY: shell deps check check-local check-ip-structure test test-example test-gpio test-timer test-uart test-soc lint lint-example lint-gpio lint-timer lint-uart lint-soc lint-ibex clean
+
+shell:
+	docker compose -f infra/docker-compose.yml run --rm --pull never fledge-dev
 
 deps:
-	bender update
 	bender checkout
+	bender vendor init
 
-check: check-ip-structure lint test
+ifeq ($(FLEDGE_IN_CONTAINER),1)
+check: deps check-local
+else
+check:
+	docker compose -f infra/docker-compose.yml run --rm --pull never \
+		fledge-dev make check
+endif
+
+check-local: check-ip-structure lint test
 
 check-ip-structure:
 	scripts/ip/check_ip_structure.py
@@ -26,7 +37,7 @@ test-uart:
 test-soc:
 	cd hw/soc/dv && make
 
-lint: lint-example lint-gpio lint-timer lint-uart lint-soc
+lint: lint-example lint-gpio lint-timer lint-uart lint-soc lint-ibex
 
 lint-example:
 	verilator --lint-only hw/ip/example_counter/rtl/counter.sv
@@ -47,6 +58,15 @@ lint-soc:
 		hw/ip/uart/rtl/uart.sv \
 		hw/soc/rtl/fledge_soc.sv
 
+lint-ibex:
+	fusesoc \
+		--cores-root=vendor/ibex \
+		--cores-root=hw/soc/ibex \
+		run \
+		--target=lint \
+		--build-root=build/ibex \
+		fledge:integration:ibex
+
 clean:
 	rm -rf hw/ip/example_counter/dv/sim_build
 	rm -f hw/ip/example_counter/dv/results.xml
@@ -58,3 +78,4 @@ clean:
 	rm -f hw/ip/uart/dv/results.xml
 	rm -rf hw/soc/dv/sim_build
 	rm -f hw/soc/dv/results.xml
+	rm -rf build/ibex

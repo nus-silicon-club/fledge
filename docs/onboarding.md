@@ -13,10 +13,10 @@ Use your host Ubuntu environment for:
 
 Use the `fledge-dev` container for:
 
+- `make check`,
 - `make lint`,
 - `make test`,
-- `bender update`,
-- `bender checkout`,
+- `make lint-ibex`,
 - future EDA scripts and checks.
 
 ## First-Time Setup
@@ -35,22 +35,21 @@ Use the `fledge-dev` container for:
    ./infra/setup.sh
    ```
 
-4. Enter the development container:
+4. From the repository root, enter the development container:
 
    ```bash
-   cd infra
-   docker compose run --rm --pull never fledge-dev
+   make shell
    ```
 
 5. Inside the container, verify the environment:
 
    ```bash
-   cd /workspace
-   make lint
-   make test
+   make check
    ```
 
-   The current regression should run the reference counter and GPIO tests. If it fails, stop and fix the environment before starting new RTL work.
+   This fetches pinned external dependencies, then runs structure checks, RTL
+   lint, Ibex lint, block-level tests, and SoC-level tests. If it fails, stop
+   and fix the environment before starting new RTL work.
 
 ## Daily Workflow
 
@@ -59,24 +58,26 @@ From your host Ubuntu shell:
 ```bash
 cd ~/chip-club-infra/chip-club-infra
 git status
-git checkout -b feat/my-change
+git switch -c feat/my-change
 ```
 
-Edit files on the host. Then run hardware checks inside the container:
+Edit files on the host. Run the complete dependency setup and regression with:
 
 ```bash
-cd infra
-docker compose run --rm --pull never fledge-dev bash -c 'make lint && make test'
+make check
 ```
 
 If checks pass, commit from the host:
 
 ```bash
-cd ..
 git add <files>
 git commit -m 'short description'
 git push
 ```
+
+For an interactive hardware-tools session instead, run `make shell`, then use
+`make check` or individual lint and test targets inside the container. Type
+`exit` to return to the host shell.
 
 ## What To Read First
 
